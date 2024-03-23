@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PressAI</string>
     <string name="title_home">Home</string>
-    <string name="title_kelas">Kelas</string>
+    <string name="title_test">Test</string>
     <string name="title_presensi">Presensi</string>
     <string name="title_profil">Profil</string>
     <string name="text_login">Login</string>
@@ -10,4 +10,6 @@
     <string name="edit_text_nim">NIM</string>
     <string name="edit_text_password">Password</string>
     <string name="edit_text_confirm_password">Konfirmasi Password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

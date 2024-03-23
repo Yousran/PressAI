@@ -2,8 +2,13 @@ package com.example.pressai;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.navigation.NavigationBarView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -12,6 +17,7 @@ public class Dashboard extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        replaceFragment(new DashboardFragment());
 
         NavigationBarView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -19,16 +25,16 @@ public class Dashboard extends AppCompatActivity{
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.item_1) {
-                    // Handle item 1 reselection
+                    replaceFragment(new DashboardFragment());
                     return true;
                 } else if (id == R.id.item_2) {
-                    // Handle item 2 reselection
+                    replaceFragment(new TestFragment());
                     return true;
                 } else if (id == R.id.item_3) {
-                    // Handle item 3 reselection
+                    replaceFragment(new PresensiFragment());
                     return true;
                 } else if (id == R.id.item_4) {
-                    // Handle item 4 reselection
+                    replaceFragment(new ProfilFragment());
                     return true;
                 }
                 return false;
@@ -36,5 +42,11 @@ public class Dashboard extends AppCompatActivity{
         });
 
 
+    }
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame,fragment);
+        fragmentTransaction.commit();
     }
 }

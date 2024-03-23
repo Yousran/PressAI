@@ -9,7 +9,7 @@
         android:id="@+id/item_2"
         android:enabled="true"
         android:icon="@drawable/outline_collections_bookmark_24"
-        android:title="@string/title_kelas"/>
+        android:title="@string/title_test"/>
     <item
         android:id="@+id/item_3"
         android:enabled="true"
