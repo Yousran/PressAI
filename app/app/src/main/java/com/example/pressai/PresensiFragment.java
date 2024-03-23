@@ -1,12 +1,26 @@
 package com.example.pressai;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-
+import android.Manifest;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
+import com.google.zxing.Result;
+import com.google.zxing.ResultPoint;
+import com.journeyapps.barcodescanner.BarcodeCallback;
+import com.journeyapps.barcodescanner.BarcodeResult;
+import com.journeyapps.barcodescanner.CompoundBarcodeView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,9 +34,15 @@ public class PresensiFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private CompoundBarcodeView barcodeView;
+
+    @Nullable
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
 
     public PresensiFragment() {
         // Required empty public constructor
@@ -58,7 +78,37 @@ public class PresensiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_presensi, container, false);
+        View view = inflater.inflate(R.layout.fragment_presensi,container,false);
+        barcodeView = view.findViewById(R.id.qr_scanner);
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(),new  String[]{Manifest.permission.CAMERA},1);}
+        else{
+            barcodeView.decodeSingle(new BarcodeCallback() {
+                @Override
+                public void barcodeResult(BarcodeResult result) {
+                    Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
+                    if (Objects.equals(result.getText(), "kasus")){
+                        Intent layout_berhasil = new Intent(getActivity().getApplicationContext(),Profil.class);
+                        startActivity(layout_berhasil);
+
+                    }
+                }
+                public void posibbleResultPoints(List<ResultPoint>resultPoints){
+                    //fsfasfd
+                }
+            });
+        }
+        return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        barcodeView.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        barcodeView.pause();
     }
 }
