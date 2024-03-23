@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PressAI</string>
+    <string name="title_home">Home</string>
+    <string name="title_kelas">Kelas</string>
+    <string name="title_presensi">Presensi</string>
+    <string name="title_profil">Profil</string>
 </resources>
