@@ -88,7 +88,7 @@ public class PresensiFragment extends Fragment {
                 public void barcodeResult(BarcodeResult result) {
                     Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
                     if (Objects.equals(result.getText(), "kasus")){
-                        Intent layout_berhasil = new Intent(getActivity().getApplicationContext(),Profil.class);
+                        Intent layout_berhasil = new Intent(getActivity().getApplicationContext(),BerhasilHadir.class);
                         startActivity(layout_berhasil);
 
                     }
