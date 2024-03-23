@@ -4,4 +4,7 @@
     <string name="title_kelas">Kelas</string>
     <string name="title_presensi">Presensi</string>
     <string name="title_profil">Profil</string>
+    <string name="text_login">Login</string>
+    <string name="edit_text_username">Username</string>
+    <string name="edit_text_password">Password</string>
 </resources>
