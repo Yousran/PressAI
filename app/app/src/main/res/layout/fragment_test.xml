@@ -3,12 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TestFragment">
+    tools:context=".TestFragment"
+    android:id="@+id/fragment_test">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/join_btn"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20sp"
+            android:text="Join"
+            android:drawableLeft="@drawable/outline_qr_code_24"
+            android:drawableTint="@color/design_default_color_background"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+        />
+    </RelativeLayout>
+
 
 </FrameLayout>
