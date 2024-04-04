@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:text="@string/Singkatan"
+            android:text="@string/singkatan"
             android:textSize="21sp"
             android:textAlignment="center"
             android:layout_below="@+id/judul"
