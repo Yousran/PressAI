@@ -1,5 +1,6 @@
 package com.example.pressai;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +61,46 @@ public class ProfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profil, container, false);
+        View view = inflater.inflate(R.layout.fragment_profil, container, false);
+
+        // Button Tema
+        Button temaButton = view.findViewById(R.id.button2);
+        temaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lakukan sesuatu ketika tombol Tema diklik
+            }
+        });
+
+        // Button Edit Profil
+        Button editProfilButton = view.findViewById(R.id.button3);
+        editProfilButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lakukan sesuatu ketika tombol Edit Profil diklik
+            }
+        });
+
+        // Button Ganti Password
+        Button gantiPasswordButton = view.findViewById(R.id.button4);
+        gantiPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lakukan sesuatu ketika tombol Ganti Password diklik
+            }
+        });
+
+        // Button Log Out
+        Button logOutButton = view.findViewById(R.id.button5);
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish(); // Optional, to close the current activity after moving to MainActivity
+            }
+        });
+
+        return view;
     }
 }
