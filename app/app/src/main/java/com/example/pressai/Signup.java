@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 public class Signup extends AppCompatActivity {
 
     Button signup_btn;
+    TextInputEditText username,nim,email,password,confirm_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

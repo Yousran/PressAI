@@ -8,6 +8,7 @@
     <string name="text_signup">SignUp</string>
     <string name="edit_text_username">Username</string>
     <string name="edit_text_nim">NIM</string>
+    <string name="edit_text_email">Email</string>
     <string name="edit_text_password">Password</string>
     <string name="edit_text_confirm_password">Konfirmasi Password</string>
     <string name="singkatan">Presensi and Essay AI</string>

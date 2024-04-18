@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "973985467361",
+    "firebase_url": "https://pressai-bc191-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "pressai-bc191",
+    "storage_bucket": "pressai-bc191.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973985467361:android:b864a4cca887874c0ea0a0",
+        "android_client_info": {
+          "package_name": "com.example.pressai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiCTYSnSoJ9YprOSOP92BYYrLH6u0754E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
