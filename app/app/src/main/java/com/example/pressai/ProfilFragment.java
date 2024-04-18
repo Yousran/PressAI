@@ -63,17 +63,9 @@ public class ProfilFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profil, container, false);
 
-        // Button Tema
-        Button temaButton = view.findViewById(R.id.button2);
-        temaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Lakukan sesuatu ketika tombol Tema diklik
-            }
-        });
 
         // Button Edit Profil
-        Button editProfilButton = view.findViewById(R.id.button3);
+        Button editProfilButton = view.findViewById(R.id.button2);
         editProfilButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,16 +74,18 @@ public class ProfilFragment extends Fragment {
         });
 
         // Button Ganti Password
-        Button gantiPasswordButton = view.findViewById(R.id.button4);
+        Button gantiPasswordButton = view.findViewById(R.id.button3);
         gantiPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lakukan sesuatu ketika tombol Ganti Password diklik
+                Intent intent = new Intent(getActivity(), GantiPassword.class);
+                startActivity(intent);
             }
         });
 
+
         // Button Log Out
-        Button logOutButton = view.findViewById(R.id.button5);
+        Button logOutButton = view.findViewById(R.id.button4);
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
