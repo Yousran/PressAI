@@ -76,6 +76,7 @@ public class ScanTestFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_scan_test,container,false);
         barcodeView = view.findViewById(R.id.qr_scanner);
+        barcodeView.setStatusText("");
         if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(getActivity(),new  String[]{Manifest.permission.CAMERA},1);
 

@@ -3,147 +3,116 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment"
-    >
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DashboardFragment">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="10sp">
 
-        <com.google.android.material.appbar.AppBarLayout
+                <!-- MaterialCardView with greeting -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_1"
+            style="?attr/materialCardViewFilledStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            app:cardBackgroundColor="@color/md_theme_surfaceContainerHighest"
+            app:cardCornerRadius="8dp">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:title="Dashboard" />
-
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Search"
-                app:layout_scrollFlags="scroll|enterAlways" />
-        </com.google.android.material.appbar.AppBarLayout>
+                android:layout_gravity="center_vertical"
+                android:padding="16dp">
 
-        <androidx.core.widget.NestedScrollView
+                <TextView
+                    android:id="@+id/selamat_datang"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Selamat Datang! "
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/nama_mahasiswa"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/selamat_datang"
+                    android:text="Nama Mahasiswa" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_gravity="end"
+                android:layout_margin="15sp"
+                android:src="@drawable/profile" />
+
+        </com.google.android.material.card.MaterialCardView>
+<!--        <com.google.android.material.card.MaterialCardView-->
+<!--            android:id="@+id/card_2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/card_1"-->
+<!--            android:layout_margin="10sp"-->
+<!--            app:cardCornerRadius="8dp"-->
+<!--            style="?attr/materialCardViewFilledStyle"-->
+<!--            app:cardBackgroundColor="@color/md_theme_surfaceContainerHighest"-->
+<!--            >-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:padding="16sp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/app_name"-->
+<!--                    android:textStyle="bold"-->
+<!--                    style="@style/TextAppearance.Material3.HeadlineLarge" />-->
+<!--            </LinearLayout>-->
+
+<!--        </com.google.android.material.card.MaterialCardView>-->
+
+        <LinearLayout
+            android:id="@+id/subjudul_riwayat_kehadiran"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <!-- Your content here -->
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_1"
+            android:layout_margin="10sp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/judul"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Riwayat Kehadiran"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/view_all_kehadiran"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="View All"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/container_card_kehadiran"
+            android:layout_below="@+id/subjudul_riwayat_kehadiran"
+            android:layout_width="match_parent"
+            android:layout_height="230sp"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <!-- MaterialCardView with greeting -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="4dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <!-- Greeting -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Halo, Nama Mahasiswa"
-                            android:textAppearance="?attr/textAppearanceSubtitle1"
-                            android:textColor="?attr/colorPrimary" />
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Additional content below the card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <!-- Judul Riwayat Kehadiran -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Riwayat Kehadiran"
-                            android:textAppearance="?attr/textAppearanceSubtitle1"
-                            android:textColor="?attr/colorPrimary" />
-
-                        <!-- Detail Kehadiran -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <!-- Tanggal Kehadiran -->
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="Tanggal"
-                                android:textAppearance="?attr/textAppearanceBody1"
-                                android:textColor="@android:color/darker_gray" />
-
-                            <!-- Status Kehadiran -->
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="Status"
-                                android:textAppearance="?attr/textAppearanceBody1"
-                                android:textColor="@android:color/darker_gray" />
-                        </LinearLayout>
-
-                        <!-- Contoh Kehadiran -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <!-- Tanggal Kehadiran -->
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="01 Januari 2024"
-                                android:textColor="?attr/colorPrimary"
-                                android:textAppearance="?attr/textAppearanceBody1" />
-
-                            <!-- Status Kehadiran -->
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="Hadir"
-                                android:textColor="?attr/colorPrimary"
-                                android:textAppearance="?attr/textAppearanceBody1" />
-                        </LinearLayout>
-
-                        <!-- Tambahkan entri-entri riwayat kehadiran sesuai kebutuhan -->
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -158,15 +127,13 @@
                         android:padding="16dp">
 
                         <TextView
-                            android:id="@+id/subjectTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pendidikan Agama Islam"
-                            android:textColor="?attr/colorPrimary"
-                            android:textAppearance="?attr/textAppearanceSubtitle1" />
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="?attr/colorPrimary" />
 
                         <TextView
-                            android:id="@+id/dateTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="January 1, 2024"
@@ -174,27 +141,191 @@
                             android:textColor="@android:color/darker_gray" />
 
                         <TextView
-                            android:id="@+id/scoreTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Score: 95"
                             android:textAppearance="?attr/textAppearanceBody1"
                             android:textColor="@android:color/darker_gray" />
-
-                        <!-- Add additional information if needed -->
-
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pendidikan Agama Islam"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="January 1, 2024"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@android:color/darker_gray" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Score: 95"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pendidikan Agama Islam"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="January 1, 2024"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@android:color/darker_gray" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Score: 95"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <com.google.android.material.search.SearchView
-            android:id="@+id/search_view"
+        <LinearLayout
+            android:id="@+id/subjudul_riwayat_test"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_anchor="@id/search_bar" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/container_card_kehadiran"
+            android:layout_margin="10sp"
+            android:gravity="center_vertical">
+            <TextView
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Riwayat Ujian"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/view_all_test"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="View All"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/container_card_test"
+            android:layout_below="@+id/subjudul_riwayat_test"
+            android:layout_width="match_parent"
+            android:layout_height="230sp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pendidikan Agama Islam"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="January 1, 2024"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@android:color/darker_gray" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Score: 95"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pendidikan Agama Islam"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="January 1, 2024"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@android:color/darker_gray" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Score: 95"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
 </FrameLayout>
