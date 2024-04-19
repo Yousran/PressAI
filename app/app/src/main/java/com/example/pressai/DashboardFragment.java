@@ -1,6 +1,8 @@
 package com.example.pressai;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -54,7 +56,9 @@ public class DashboardFragment extends Fragment {
         TextView view_all_test = view.findViewById(R.id.view_all_test);
         TextView view_all_kehadiran = view.findViewById(R.id.view_all_kehadiran);
         TextView nama_mahasiswa = view.findViewById(R.id.nama_mahasiswa);
-        showUserData(nama_mahasiswa);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        nama_mahasiswa.setText(sharedPref.getString("username", "Mahasiswa"));
 
         view_all_kehadiran.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,14 +82,6 @@ public class DashboardFragment extends Fragment {
         });
 
         return view;
-    }
-
-    public void showUserData(TextView nama_mahasiswa){
-        Intent intent = getActivity().getIntent();
-        String username = intent.getStringExtra("username");
-        String nim = intent.getStringExtra("nim");
-
-        nama_mahasiswa.setText(username);
     }
 
 }
