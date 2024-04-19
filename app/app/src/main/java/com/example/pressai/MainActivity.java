@@ -32,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String username = sharedPref.getString("username", null);
+        super.onCreate(savedInstanceState);
 
         if (username!=null) {
             Intent dashboardIntent = new Intent(MainActivity.this, Dashboard.class);
             startActivity(dashboardIntent);
             finish();
         }else{
-            super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
             login_btn = findViewById(R.id.login_btn);
