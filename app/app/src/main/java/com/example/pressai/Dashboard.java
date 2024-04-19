@@ -18,8 +18,8 @@ public class Dashboard extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         replaceFragment(new DashboardFragment());
-
         NavigationBarView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_1);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

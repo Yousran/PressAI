@@ -13,12 +13,11 @@
                 <!-- MaterialCardView with greeting -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_1"
-            style="?attr/materialCardViewFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
-            app:cardBackgroundColor="@color/md_theme_surfaceContainerHighest"
-            app:cardCornerRadius="8dp">
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -92,6 +91,7 @@
                 android:layout_weight="1"
                 android:text="Riwayat Kehadiran"
                 android:textStyle="bold"
+
                 />
             <TextView
                 android:id="@+id/view_all_kehadiran"
@@ -101,6 +101,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="View All"
                 android:textStyle="bold"
+                android:clickable="true"
                 />
         </LinearLayout>
         <androidx.core.widget.NestedScrollView
@@ -244,6 +245,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="View All"
                 android:textStyle="bold"
+                android:clickable="true"
                 />
         </LinearLayout>
         <androidx.core.widget.NestedScrollView
