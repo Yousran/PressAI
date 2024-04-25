@@ -67,7 +67,8 @@ public class ProfilFragment extends Fragment {
         editProfilButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lakukan sesuatu ketika tombol Edit Profil diklik
+                Intent intent = new Intent(getActivity(), Edit_profile.class);
+                startActivity(intent);
             }
         });
 
