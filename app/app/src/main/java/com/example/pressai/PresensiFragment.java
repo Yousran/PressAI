@@ -1,13 +1,22 @@
 package com.example.pressai;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.Manifest;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -17,6 +26,7 @@ import com.journeyapps.barcodescanner.CompoundBarcodeView;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.ScanOptions;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +34,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -85,22 +96,45 @@ public class PresensiFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_presensi,container,false);
         barcodeView = view.findViewById(R.id.qr_scanner);
         barcodeView.setStatusText("");
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(getActivity(),new  String[]{Manifest.permission.CAMERA},1);}
         else{
             barcodeView.decodeSingle(new BarcodeCallback() {
                 @Override
                 public void barcodeResult(BarcodeResult result) {
-                    Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_SHORT).show();
-                    if (Objects.equals(result.getText(), "kasus")){
-                        Intent layout_berhasil = new Intent(getActivity().getApplicationContext(),BerhasilHadir.class);
-                        startActivity(layout_berhasil);
 
-                    }
-                }
-                public void posibbleResultPoints(List<ResultPoint>resultPoints){
-                    //fsfasfd
-                }
+                    String barcodeText = result.getText();
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("sesi_kuliah");
+
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                                String childName = childSnapshot.getKey();
+
+                                if (Objects.equals(barcodeText, childName)) {
+
+                                    // Create a new entry in the database
+                                    DatabaseReference kehadiranRef = FirebaseDatabase.getInstance().getReference("kehadiran/" + childName);
+                                    String username = sharedPref.getString("username", "Mahasiswa");
+                                    kehadiranRef.child(username).setValue("hadir");
+
+                                    Intent layout_berhasil = new Intent(getActivity().getApplicationContext(), BerhasilHadir.class);
+                                    startActivity(layout_berhasil);
+                                    break;
+                                } else {
+                                    Toast.makeText(getActivity(), barcodeText, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+
+                        }
+                    });
+        }
             });
         }
         return view;

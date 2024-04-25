@@ -30,14 +30,11 @@ public class BerhasilHadir extends AppCompatActivity {
         lihat_keadiran_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationBarView bottomNavigationView = findViewById(R.id.bottom_navigation);
-                bottomNavigationView.setSelectedItemId(R.id.item_3);
+                Intent layout_dashboard = new Intent(getApplicationContext(), Dashboard.class);
+                layout_dashboard.putExtra("selectedItemId",R.id.item_3);
+                startActivity(layout_dashboard);
+                finish();
 
-                HistoryPresensiFragment historyPresensiFragment = new HistoryPresensiFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.main_frame,historyPresensiFragment);
-                fragmentTransaction.commit();
             }
         });
     }

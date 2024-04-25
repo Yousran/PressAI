@@ -41,6 +41,16 @@ public class Dashboard extends AppCompatActivity{
             }
         });
 
+        int selectedItemId = getIntent().getIntExtra("selectedItemId",-1);
+        if (selectedItemId!=-1){
+            bottomNavigationView.setSelectedItemId(selectedItemId);
+            HistoryPresensiFragment historyPresensiFragment = new HistoryPresensiFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.main_frame,historyPresensiFragment);
+            fragmentTransaction.commit();
+        }
+
 
     }
     private void replaceFragment(Fragment fragment){
