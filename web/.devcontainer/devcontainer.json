@@ -1,0 +1,21 @@
+{
+    "name": "Laravel Project",
+    "dockerComposeFile": "../compose-dev.yaml",
+    "service": "web",
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "adpyke.codesnap",
+                "mhutchie.git-graph",
+                "zhuangtongfa.material-theme",
+                "bmewburn.vscode-intelephense-client",
+                "onecentlin.laravel-blade",
+                "amiralizadeh9480.laravel-extra-intellisense"
+            ],
+            "settings": {
+                "workbench.colorTheme": "One Dark Pro"
+            }
+        }
+      }
+}
