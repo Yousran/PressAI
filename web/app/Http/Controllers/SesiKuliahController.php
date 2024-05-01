@@ -17,29 +17,28 @@ class SesiKuliahController extends Controller
         $this->mata_kuliah = 'mata_kuliah';
         $this->sesi_kuliah = 'sesi_kuliah';
     }
-    public function index() {
-        $mata_kuliahs = $this->database->getReference($this->mata_kuliah)->getValue();
-        return view('sesi_kuliah',compact('mata_kuliahs'));
-        // return dd(compact('users'));
-    }
-    public function sesiKuliah($mata_kuliah_code){
+    public function index($mata_kuliah_code) {
         $sesi_kuliahs = $this->database->getReference($this->mata_kuliah . '/' . $mata_kuliah_code)->getValue();
-        return view('view_sesi_kuliah',compact('sesi_kuliahs'));
+        return view('sesi_kuliah',compact('sesi_kuliahs'));
     }
     public function create(Request $request)
     {
         $sesi_kuliah_code = str_shuffle(bin2hex(random_bytes(2)));
+        $mata_kuliah_name = $this->database->getReference($this->mata_kuliah . '/' . $request->code.'/mata_kuliah_name')->getValue();
+        
         $newData = $this->database->getReference($this->mata_kuliah . '/' . $request->code . '/sesi_kuliah' . '/' . $sesi_kuliah_code)->set([
             'kode_sesi' => $sesi_kuliah_code,
             'awal_waktu' => $request->awal_waktu,
             'akhir_waktu' => $request->akhir_waktu,
+            'tanggal_sesi' => $request->tanggal_sesi
         ]);
         $newData = $this->database->getReference($this->sesi_kuliah . '/' . $sesi_kuliah_code)->set([
             'kode_sesi' => $sesi_kuliah_code,
             'mata_kuliah_code' => $request->code,
+            'mata_kuliah_name' => $mata_kuliah_name,
             'awal_waktu' => $request->awal_waktu,
             'akhir_waktu' => $request->akhir_waktu,
-            // tambahkan semua field yang diperlukan
+            'tanggal_sesi' => $request->tanggal_sesi
         ]);
     
         return redirect()->back();

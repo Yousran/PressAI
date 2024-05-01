@@ -4,27 +4,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @endsection
 
 @section('columns')    
 
-<div class="modal fade" id="tambah_role" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="tambah_soal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Mata Kuliah</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Soal</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="{{ route('mata-kuliah.create') }}" method="post">
+        <form action="{{ route('soal.create') }}" method="post">
             <div class="modal-body">
                 @csrf
+                <input type="hidden" name="code" value="{{$test['test_code']}}">
                 <div class="mb-3">
-                    <label class="form-label">Nama Mata Kuliah</label>
-                    <input type="text" class="form-control" name="nama">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Kode Mata Kuliah</label>
-                    <input type="text" class="form-control" name="code">
+                    <label class="form-label">Pertanyaan</label>
+                    <input type="text" class="form-control" name="pertanyaan">
                 </div>
             </div>
             <div class="modal-footer">
@@ -38,41 +37,38 @@
 
 <div class="card m-3">
     <div class="card-body">
-        <h5 class="card-title">Daftar Mata Kuliah</h5>
+        <h5 class="card-title">Daftar Soal</h5>
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah_role">Tambah Mata Kuliah</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah_soal">Tambah Soal</button>
         </div>
         <div class="table-responsive">
             <table id="datatable" class="table" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Nama Mata Kuliah</th>
-                        <th>Kode Mata Kuliah</th>
+                        <th>Soal</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($mata_kuliahs)
-                    @foreach ($mata_kuliahs as $mata_kuliah)
+                    @if ($soals)
+                    @foreach ($soals as $soal)
                         <tr>
-                            <td>{{$mata_kuliah['mata_kuliah_name']}}</td>
-                            <td>{{$mata_kuliah['mata_kuliah_code']}}</td>
-                            <td>
+                            <td>{{$soal['pertanyaan']}}</td>
+                            {{-- <td>
                                 <form action="{{ route('mata-kuliah.delete') }}" method="post">
                                 <div class="btn-group">
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_{{ $mata_kuliah['mata_kuliah_code'] }}">Edit</button>
                                         <a href="{{ route('sesi-kuliah./', ['mata_kuliah_code' => $mata_kuliah['mata_kuliah_code']]) }}" class="btn btn-info">Lihat Sesi Kuliah</a>
-                                        <a href="{{ route('test./', ['mata_kuliah_code' => $mata_kuliah['mata_kuliah_code']]) }}" class="btn btn-info">Lihat Test</a>
                                         @csrf
                                         <input type="hidden" name="code" value="{{ $mata_kuliah['mata_kuliah_code'] }}">
                                         <button type="submit" class="btn btn-danger">Hapus</button>
                                     </div>
                                 </form>
-                            </td>                            
+                            </td>                             --}}
                         </tr>
 
                         <!-- Edit Modal -->
-                        <div class="modal fade" id="edit_{{ $mata_kuliah['mata_kuliah_code'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        {{-- <div class="modal fade" id="edit_{{ $mata_kuliah['mata_kuliah_code'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                 <div class="modal-header">
@@ -99,8 +95,7 @@
                                 </form>
                                 </div>
                             </div>
-                        </div>
-                        <!-- End of Edit Modal -->
+                        </div> --}}
 
                     @endforeach
                     @else
