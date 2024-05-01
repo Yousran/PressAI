@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.Manifest;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,7 +35,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -107,24 +113,100 @@ public class PresensiFragment extends Fragment {
                     String barcodeText = result.getText();
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("sesi_kuliah");
 
-                    ref.addValueEventListener(new ValueEventListener() {
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                                 String childName = childSnapshot.getKey();
 
                                 if (Objects.equals(barcodeText, childName)) {
+                                    Toast.makeText(getActivity(),childName,Toast.LENGTH_SHORT).show();
+                                    DatabaseReference sesi_kuliah = FirebaseDatabase.getInstance().getReference("sesi_kuliah/"+childName+"/mata_kuliah_code");
+                                    sesi_kuliah.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            String mata_kuliah_code = snapshot.getValue(String.class);
 
-                                    // Create a new entry in the database
-                                    DatabaseReference kehadiranRef = FirebaseDatabase.getInstance().getReference("kehadiran/" + childName);
-                                    String username = sharedPref.getString("username", "Mahasiswa");
-                                    kehadiranRef.child(username).setValue("hadir");
+                                            DatabaseReference mataKuliah = FirebaseDatabase.getInstance().getReference("mata_kuliah/"+mata_kuliah_code+"/mata_kuliah_name");
+                                            mataKuliah.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    String mata_kuliah_name = snapshot.getValue(String.class);
 
-                                    Intent layout_berhasil = new Intent(getActivity().getApplicationContext(), BerhasilHadir.class);
-                                    startActivity(layout_berhasil);
+                                                    DatabaseReference kehadiranRef = FirebaseDatabase.getInstance().getReference("kehadiran/" + childName);
+                                                    String username = sharedPref.getString("username", "Mahasiswa");
+
+                                                    DatabaseReference kehadiranUser = FirebaseDatabase.getInstance().getReference("users/" + username + "/kehadiran/" + childName);
+
+                                                    // Check if the user has already been marked as present
+                                                    kehadiranUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if (snapshot.exists()) {
+                                                                // If the user has already been marked as present, show a toast message and return
+                                                                Toast.makeText(getActivity(),"Data sudah ada",Toast.LENGTH_SHORT).show();
+                                                                return;
+                                                            }
+
+                                                            // Get the current date and time
+                                                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                                                            String currentDateAndTime = sdf.format(new Date());
+
+                                                            // Get the session start and end times
+                                                            String awal_waktu = childSnapshot.child("awal_waktu").getValue(String.class);
+                                                            String akhir_waktu = childSnapshot.child("akhir_waktu").getValue(String.class);
+                                                            String tanggal_sesi = childSnapshot.child("tanggal_sesi").getValue(String.class);
+
+                                                            // Parse the current, start and end times to Date objects
+                                                            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                                                            try {
+                                                                Toast.makeText(getActivity(),currentDateAndTime,Toast.LENGTH_SHORT).show();
+                                                                Date currentTime = timeFormat.parse(currentDateAndTime.split(" ")[1]);
+                                                                Date startTime = timeFormat.parse(awal_waktu);
+                                                                Date endTime = timeFormat.parse(akhir_waktu);
+
+                                                                Date currentDate = dateFormat.parse(currentDateAndTime.split(" ")[0]);
+                                                                Date sessionDate = dateFormat.parse(tanggal_sesi);
+
+                                                                // Check if the current time is within the session time
+                                                                if (currentTime.after(startTime) && currentTime.before(endTime)&& currentDate.equals(sessionDate)) {
+                                                                    kehadiranRef.child(username).child("status_hadir").setValue("Hadir");
+                                                                    kehadiranUser.child("status_hadir").setValue("Hadir");
+                                                                    kehadiranUser.child("mata_kuliah_name").setValue(mata_kuliah_name);
+                                                                    kehadiranUser.child("tanggal_sesi").setValue(currentDateAndTime);
+                                                                    kehadiranRef.child(username).child("created_at").setValue(currentDateAndTime);
+
+                                                                    Intent layout_berhasil = new Intent(getActivity().getApplicationContext(), BerhasilHadir.class);
+                                                                    startActivity(layout_berhasil);
+                                                                } else {
+                                                                    Toast.makeText(getActivity(),"gagalhadir",Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            } catch (ParseException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                     break;
-                                } else {
-                                    Toast.makeText(getActivity(), barcodeText, Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
@@ -134,8 +216,11 @@ public class PresensiFragment extends Fragment {
 
                         }
                     });
-        }
+                }
             });
+
+
+
         }
         return view;
     }

@@ -52,13 +52,14 @@
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/soal_test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/timer"
             android:layout_marginTop="10sp"
-            android:text="Apakah yang dimaksud dengan intent"
+            android:text="Pertanyaan"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge">
         </TextView>
 

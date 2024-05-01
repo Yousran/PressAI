@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/nama_matakuliah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pendidikan Agama Islam"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tanggal_sesi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="January 1, 2024"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/status_kehadiran"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hadir"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -13,20 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TestFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TestFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
 
@@ -34,15 +26,6 @@ public class TestFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TestFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static TestFragment newInstance(String param1, String param2) {
         TestFragment fragment = new TestFragment();
         Bundle args = new Bundle();
@@ -77,10 +60,16 @@ public class TestFragment extends Fragment {
         join_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TestLobbyFragment testLobbyFragment = new TestLobbyFragment();
+//                TestLobbyFragment testLobbyFragment = new TestLobbyFragment();
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.fragment_test, testLobbyFragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+                ScanTestFragment scanTestFragment = new ScanTestFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_test, testLobbyFragment);
+                fragmentTransaction.replace(R.id.fragment_test,scanTestFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

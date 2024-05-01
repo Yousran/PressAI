@@ -18,6 +18,9 @@
         android:theme="@style/Theme.PressAI"
         tools:targetApi="31">
         <activity
+            android:name=".ViewScoreActivity"
+            android:exported="false" />
+        <activity
             android:name=".Edit_profile"
             android:exported="false" />
         <activity
