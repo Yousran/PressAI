@@ -1,41 +1,44 @@
 package com.example.pressai;
 
+import static com.example.pressai.R.*;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.List;
+
+import android.widget.TextView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class DashboardFragment extends Fragment {
 
+public class DashboardFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
     private String mParam2;
 
+    private RecyclerView recyclerViewKehadiran;
+    private RecyclerView recyclerViewUjian;
+
     public DashboardFragment() {
         // Required empty public constructor
-    }
-
-    public static DashboardFragment newInstance(String param1, String param2) {
-        DashboardFragment fragment = new DashboardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class DashboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        TextView view_all_test = view.findViewById(R.id.view_all_test);
+        TextView view_all_test = view.findViewById(R.id.view_all_ujian);
         TextView view_all_kehadiran = view.findViewById(R.id.view_all_kehadiran);
         TextView nama_mahasiswa = view.findViewById(R.id.nama_mahasiswa);
         SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -69,10 +72,11 @@ public class DashboardFragment extends Fragment {
                 HistoryPresensiFragment historyPresensiFragment = new HistoryPresensiFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.main_frame,historyPresensiFragment);
+                fragmentTransaction.replace(R.id.main_frame, historyPresensiFragment);
                 fragmentTransaction.commit();
             }
         });
+
         view_all_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +85,38 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        recyclerViewKehadiran = view.findViewById(R.id.recycler_kehadiran);
+        recyclerViewUjian = view.findViewById(R.id.recycler_ujian);
+
+        setupRecyclerViewKehadiran();
+        setupRecyclerViewUjian();
+
         return view;
     }
 
+    private void setupRecyclerViewKehadiran() {
+        List<RiwayatItem> kehadiranList = new ArrayList<>();
+        kehadiranList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
+        kehadiranList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
+        kehadiranList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
+        kehadiranList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
+        // Tambahkan data kehadiran lainnya ke dalam kehadiranList sesuai kebutuhan
+
+        RiwayatAdapter kehadiranAdapter = new RiwayatAdapter(kehadiranList);
+        recyclerViewKehadiran.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewKehadiran.setAdapter(kehadiranAdapter);
+    }
+
+    private void setupRecyclerViewUjian() {
+        List<RiwayatItem> ujianList = new ArrayList<>();
+        ujianList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
+        ujianList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
+        ujianList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
+        ujianList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
+        // Tambahkan data ujian ke dalam ujianList
+
+        RiwayatAdapter ujianAdapter = new RiwayatAdapter(ujianList);
+        recyclerViewUjian.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewUjian.setAdapter(ujianAdapter);
+    }
 }
