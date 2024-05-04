@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,54 +28,95 @@ public class Edit_profile extends AppCompatActivity {
     TextInputLayout usernameInput, NIMInput, emailInput;
     Button simpanBtn, kembaliBtn;
 
-    SharedPreferences sharedPreferences;
+    String username, nim, Email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        sharedPreferences = getSharedPreferences("login_prefs", Context.MODE_PRIVATE);
+        // Mengambil informasi pengguna dari SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        username = sharedPref.getString("username", null);
+        nim = sharedPref.getString("nim", null);
+        Email = sharedPref.getString("Email", null); // Menambahkan email di sini
 
-        // Mendapatkan informasi pengguna yang sedang login dari SharedPreferences
-        String currentUserKey = sharedPreferences.getString("current_user_key", "");
-
+        // Inisialisasi TextInputLayout dan Button
         usernameInput = findViewById(R.id.edit_text_username);
         NIMInput = findViewById(R.id.edit_text_nim);
         emailInput = findViewById(R.id.edit_text_email);
         simpanBtn = findViewById(R.id.simpan_btn);
         kembaliBtn = findViewById(R.id.link_kembali_btn);
 
-        // Menampilkan data profil pengguna yang sedang login
-        showUserData(currentUserKey);
+        // Menampilkan data pengguna di TextInputLayout
+        usernameInput.getEditText().setText(username);
+        NIMInput.getEditText().setText(nim);
+        emailInput.getEditText().setText(Email); // Menampilkan email di sini
 
-        // ...
-    }
-
-    private void showUserData(String currentUserKey) {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserKey);
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        // Tambahkan logika untuk menyimpan data pengguna saat tombol Simpan ditekan
+        simpanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String username = dataSnapshot.hasChild("username") ? dataSnapshot.child("username").getValue().toString() : "";
-                    String NIM = dataSnapshot.hasChild("NIM") ? dataSnapshot.child("NIM").getValue().toString() : "";
-                    String email = dataSnapshot.hasChild("Email") ? dataSnapshot.child("Email").getValue().toString() : "";
-
-                    // Menampilkan data pada TextInputLayout
-                    usernameInput.getEditText().setText(username);
-                    NIMInput.getEditText().setText(NIM);
-                    emailInput.getEditText().setText(email);
-                }
+            public void onClick(View v) {
+                saveUserData();
             }
+        });
 
+        // Tambahkan aksi klik pada tombol Kembali
+        kembaliBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Penanganan kesalahan jika ada
-                Toast.makeText(Edit_profile.this, "Gagal mengambil data pengguna", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                // Kembali ke halaman sebelumnya
+                finish();
             }
         });
     }
 
-    // ...
+    private void saveUserData() {
+        // Mendapatkan nilai yang diubah oleh pengguna
+        String newUsername = usernameInput.getEditText().getText().toString().trim();
+        String newNIM = NIMInput.getEditText().getText().toString().trim();
+        String newEmail = emailInput.getEditText().getText().toString().trim();
+
+        // Logika untuk menyimpan data pengguna ke Firebase hanya jika ada perubahan
+        if (!newUsername.equals(username) || !newNIM.equals(nim) || !newEmail.equals(Email)) {
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
+
+            // Jika pengguna mengubah nama pengguna
+            if (!newUsername.equals(username)) {
+                // Hapus entri lama
+                userRef.child(username).removeValue();
+            }
+
+            // Menyimpan data ke Firebase
+            userRef.child(newUsername).child("username").setValue(newUsername);
+            userRef.child(newUsername).child("nim").setValue(newNIM);
+            userRef.child(newUsername).child("email").setValue(newEmail)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Menampilkan pesan sukses
+                            Toast.makeText(Edit_profile.this, "Data pengguna berhasil diperbarui di Firebase", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Menampilkan pesan gagal jika penyimpanan gagal
+                            Toast.makeText(Edit_profile.this, "Gagal memperbarui data pengguna di Firebase", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            // Simpan juga perubahan ke SharedPreferences
+            SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("username", newUsername);
+            editor.putString("nim", newNIM);
+            editor.putString("Email", newEmail);
+            editor.apply();
+        } else {
+            // Tidak ada perubahan yang perlu disimpan
+            Toast.makeText(Edit_profile.this, "Tidak ada perubahan yang perlu disimpan", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
