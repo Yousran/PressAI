@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:padding="10sp">
 
-        <!-- MaterialCardView with greeting -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_1"
             android:layout_width="match_parent"
@@ -51,10 +50,8 @@
                 android:layout_margin="15sp"
                 android:src="@drawable/profile" />
 
-            <!-- Content for card 1 -->
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Riwayat Kehadiran -->
         <LinearLayout
             android:id="@+id/subjudul_riwayat_kehadiran"
             android:layout_width="match_parent"
@@ -66,7 +63,6 @@
             android:layout_marginBottom="10sp"
             android:gravity="center_vertical">
 
-            <!-- Judul -->
             <TextView
                 android:id="@+id/judul_kehadiran"
                 style="@style/TextAppearance.Material3.BodyLarge"
@@ -75,7 +71,6 @@
                 android:text="Riwayat Kehadiran"
                 android:textStyle="bold" />
 
-            <!-- Tombol View All -->
             <TextView
                 android:id="@+id/view_all_kehadiran"
                 style="@style/TextAppearance.Material3.BodyMedium"
@@ -88,16 +83,13 @@
                 android:layout_marginStart="150dp"/>
         </LinearLayout>
 
-        <!-- RecyclerView untuk Riwayat Kehadiran -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_kehadiran"
             android:layout_width="match_parent"
             android:layout_height="270dp"
             android:layout_below="@id/subjudul_riwayat_kehadiran"
-            android:padding="8dp"
-            android:background="@android:color/white" />
+            android:padding="8dp" />
 
-        <!-- Riwayat Ujian -->
         <LinearLayout
             android:id="@+id/subjudul_riwayat_ujian"
             android:layout_width="match_parent"
@@ -109,7 +101,6 @@
             android:layout_marginBottom="10sp"
             android:gravity="center_vertical">
 
-            <!-- Judul -->
             <TextView
                 android:id="@+id/judul_ujian"
                 style="@style/TextAppearance.Material3.BodyLarge"
@@ -118,7 +109,6 @@
                 android:text="Riwayat Ujian"
                 android:textStyle="bold" />
 
-            <!-- Tombol View All -->
             <TextView
                 android:id="@+id/view_all_ujian"
                 style="@style/TextAppearance.Material3.BodyMedium"
@@ -131,14 +121,12 @@
                 android:layout_marginStart="190dp"/>
         </LinearLayout>
 
-        <!-- RecyclerView untuk Riwayat Ujian -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_ujian"
             android:layout_width="match_parent"
             android:layout_height="270dp"
             android:layout_below="@id/subjudul_riwayat_ujian"
-            android:padding="8dp"
-            android:background="@android:color/white" />
+            android:padding="8dp" />
 
     </RelativeLayout>
 </FrameLayout>
