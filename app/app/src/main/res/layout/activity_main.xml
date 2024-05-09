@@ -5,42 +5,86 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="270dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/background"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="170dp"
+        android:layout_height="264dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@id/imageView"
+        app:elevation="1dp"
+        tools:srcCompat="@drawable/login" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:text="Welcome to PressAI"
+        android:textColor="@color/md_theme_onTertiaryContainer"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="77dp" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="349dp"
+        android:layout_height="430dp"
+        android:layout_marginTop="240sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="30sp">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="314dp">
+
         <TextView
             android:id="@+id/judul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:text="@string/app_name"
             android:textAlignment="center"
-
-            />
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            tools:ignore="NotSibling" />
 
         <TextView
             android:id="@+id/singkatan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:text="@string/singkatan"
-            android:textSize="21sp"
-            android:textAlignment="center"
             android:layout_below="@+id/judul"
-            />
+            android:text="@string/singkatan"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textSize="21sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/singkatan"
-            android:hint="@string/edit_text_username"
-            >
+            android:layout_marginTop="20sp"
+            android:hint="@string/edit_text_username">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_text_username"
@@ -48,11 +92,13 @@
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/input_username"
+            android:layout_marginTop="20sp"
             android:hint="@string/edit_text_password"
             app:endIconMode="password_toggle">
 
@@ -60,7 +106,7 @@
                 android:id="@+id/edit_text_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,37 +114,56 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_password"
-            android:layout_marginTop="5sp"
-            >
-            <Button
-                android:id="@+id/link_signup_btn"
-                android:layout_width="100sp"
-                android:layout_height="wrap_content"
-                android:text="@string/text_signup"
-                android:layout_alignParentStart="true"
-                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                />
+            android:layout_marginTop="5sp">
+
             <ProgressBar
                 android:id="@+id/progressBar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/login_btn"
-                android:layout_width="100sp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="@string/text_login"
                 style="@style/Widget.Material3.Button.IconButton.Filled"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20sp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/text_login" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/login_btn"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="OR"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/link_signup_btn"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/text_signup"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_btn" />
+
         </RelativeLayout>
 
-
-<!--makan-->
-        <!--minum-->
-<!--        buka-->
-<!--puasa-->
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
