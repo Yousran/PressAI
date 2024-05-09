@@ -81,7 +81,7 @@ public class Edit_profile extends AppCompatActivity {
         // Memeriksa apakah email dan nim tidak kosong
         if (newNIM.isEmpty() || newEmail.isEmpty()) {
             // Menampilkan peringatan jika email atau nim kosong
-            Toast.makeText(Edit_profile.this, "NIM dan Email harus diisi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Edit_profile.this, "NIM dan Email harus diisi!", Toast.LENGTH_SHORT).show();
         } else {
             // Memeriksa apakah ada perubahan yang perlu disimpan
             if (!newNIM.equals(nim) || !newEmail.equals(email)) {
