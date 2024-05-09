@@ -2,10 +2,12 @@ package com.example.pressai;
 
 import static com.example.pressai.R.*;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +23,17 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.widget.TextView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class DashboardFragment extends Fragment {
@@ -34,8 +43,16 @@ public class DashboardFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    String username;
     private RecyclerView recyclerViewKehadiran;
     private RecyclerView recyclerViewUjian;
+    DatabaseReference databaseKehadiran;
+    DatabaseReference databaseTest;
+    KehadiranAdapter kehadiranAdapter;
+    ArrayList<DataKehadiran> dataKehadiran;
+
+    RiwayatUjianAdapter riwayatUjianAdapter;
+    ArrayList<DataUjian> dataUjian;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -59,9 +76,15 @@ public class DashboardFragment extends Fragment {
         TextView view_all_test = view.findViewById(R.id.view_all_ujian);
         TextView view_all_kehadiran = view.findViewById(R.id.view_all_kehadiran);
         TextView nama_mahasiswa = view.findViewById(R.id.nama_mahasiswa);
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
-        nama_mahasiswa.setText(sharedPref.getString("username", "Mahasiswa"));
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        username = sharedPref.getString("username", "Mahasiswa");
+        nama_mahasiswa.setText(username);
+
+        setupRecyclerViewKehadiran(view);
+        setupRecyclerViewUjian(view);
+
+
 
         view_all_kehadiran.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,38 +108,86 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        recyclerViewKehadiran = view.findViewById(R.id.recycler_kehadiran);
-        recyclerViewUjian = view.findViewById(R.id.recycler_ujian);
-
-        setupRecyclerViewKehadiran();
-        setupRecyclerViewUjian();
-
         return view;
     }
 
-    private void setupRecyclerViewKehadiran() {
-        List<RiwayatItem> kehadiranList = new ArrayList<>();
-        kehadiranList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
-        kehadiranList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
-        kehadiranList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
-        kehadiranList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
-        // Tambahkan data kehadiran lainnya ke dalam kehadiranList sesuai kebutuhan
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Query query = databaseKehadiran.orderByChild("created_at").limitToLast(5);
+        query.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataKehadiran.clear();
+                ArrayList<DataSnapshot> dataList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dataList.add(dataSnapshot);
+                }
 
-        RiwayatAdapter kehadiranAdapter = new RiwayatAdapter(kehadiranList);
-        recyclerViewKehadiran.setLayoutManager(new LinearLayoutManager(getActivity()));
+                Collections.reverse(dataList);
+                for (DataSnapshot dataSnapshot : dataList){
+                    DataKehadiran data = dataSnapshot.getValue(DataKehadiran.class);
+                    dataKehadiran.add(data);
+                }
+                kehadiranAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        Query queryujian = databaseTest.orderByChild("tanggal_test").limitToLast(5);
+        queryujian.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataUjian.clear();
+                ArrayList<DataSnapshot> dataList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dataList.add(dataSnapshot);
+                }
+
+                Collections.reverse(dataList);
+                for (DataSnapshot dataSnapshot : dataList){
+                    DataUjian data = dataSnapshot.getValue(DataUjian.class);
+                    dataUjian.add(data);
+                }
+                riwayatUjianAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void setupRecyclerViewKehadiran(View view) {
+        recyclerViewKehadiran = view.findViewById(R.id.recycler_kehadiran);
+        databaseKehadiran = FirebaseDatabase.getInstance().getReference("users/"+username+"/kehadiran/");
+
+        recyclerViewKehadiran.setHasFixedSize(true);
+        recyclerViewKehadiran.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        dataKehadiran = new ArrayList<>();
+        kehadiranAdapter = new KehadiranAdapter(getContext(),dataKehadiran);
         recyclerViewKehadiran.setAdapter(kehadiranAdapter);
     }
 
-    private void setupRecyclerViewUjian() {
-        List<RiwayatItem> ujianList = new ArrayList<>();
-        ujianList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
-        ujianList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
-        ujianList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
-        ujianList.add(new RiwayatItem("Pendidikan Agama Islam", "January 1, 2024", 95));
-        // Tambahkan data ujian ke dalam ujianList
+    private void setupRecyclerViewUjian(View view) {
+        recyclerViewUjian = view.findViewById(id.recycler_ujian);
+        databaseTest = FirebaseDatabase.getInstance().getReference("users/" + username + "/test/");
 
-        RiwayatAdapter ujianAdapter = new RiwayatAdapter(ujianList);
-        recyclerViewUjian.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewUjian.setAdapter(ujianAdapter);
+        recyclerViewUjian.setHasFixedSize(true);
+        recyclerViewUjian.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        dataUjian = new ArrayList<>();
+        riwayatUjianAdapter = new RiwayatUjianAdapter(getContext(),dataUjian);
+        recyclerViewUjian.setAdapter(riwayatUjianAdapter);
     }
 }

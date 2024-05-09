@@ -152,6 +152,9 @@ public class PresensiFragment extends Fragment {
                                                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
                                                             String currentDateAndTime = sdf.format(new Date());
 
+                                                            SimpleDateFormat cardinaltf = new SimpleDateFormat("mm:HH:dd:MM:yyyy", Locale.getDefault());
+                                                            String cardinaldat = cardinaltf.format(new Date());
+
                                                             // Get the session start and end times
                                                             String awal_waktu = childSnapshot.child("awal_waktu").getValue(String.class);
                                                             String akhir_waktu = childSnapshot.child("akhir_waktu").getValue(String.class);
@@ -175,7 +178,8 @@ public class PresensiFragment extends Fragment {
                                                                     kehadiranUser.child("status_hadir").setValue("Hadir");
                                                                     kehadiranUser.child("mata_kuliah_name").setValue(mata_kuliah_name);
                                                                     kehadiranUser.child("tanggal_sesi").setValue(currentDateAndTime);
-                                                                    kehadiranRef.child(username).child("created_at").setValue(currentDateAndTime);
+                                                                    kehadiranUser.child("created_at").setValue(cardinaldat);
+                                                                    kehadiranRef.child(username).child("created_at").setValue(cardinaldat);
 
                                                                     Intent layout_berhasil = new Intent(getActivity().getApplicationContext(), BerhasilHadir.class);
                                                                     startActivity(layout_berhasil);

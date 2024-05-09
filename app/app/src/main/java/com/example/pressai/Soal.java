@@ -148,7 +148,9 @@ public class Soal extends AppCompatActivity {
         }
         averageScore = ((double) totalScore / (dataJawabans.size() * 5)) * 100; // Calculate the scaled average score
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat cardinaltf = new SimpleDateFormat("mm:HH:dd:MM:yyyy", Locale.getDefault());
         String currentTimestamp = sdf.format(new Date()); // Get the current timestamp
+        String cardinaldat = cardinaltf.format(new Date());
 
         DatabaseReference testRef = databaseRef.child("test/" + dataJawabans.get(0).getTest_code());
         testRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -173,16 +175,16 @@ public class Soal extends AppCompatActivity {
 
                     // Update common test summary details for the user
                     updates.put(userBasePath + "/test_score", averageScore);
-                    updates.put(userBasePath + "/created_at", currentTimestamp);
                     updates.put(userBasePath + "/mata_kuliah_name", mata_kuliah_name);
                     updates.put(userBasePath + "/tanggal_test", tanggal_test);
+                    updates.put(userBasePath + "/created_at", cardinaldat);
 
                     // Add data under the test_code for each user
                     String testUserPath = "test/" + jawaban.getTest_code() + "/users/" + jawaban.getUsername();
                     updates.put(testUserPath + "/test_score", averageScore);
-                    updates.put(testUserPath + "/created_at", currentTimestamp);
                     updates.put(testUserPath + "/mata_kuliah_name", mata_kuliah_name);
                     updates.put(testUserPath + "/tanggal_test", tanggal_test);
+                    updates.put(testUserPath + "/created_at", cardinaldat);
                     String testAnswerpath = testUserPath + "/jawaban/" + jawaban.getSoal_code();
                     updates.put(testAnswerpath, jawabanDetails);
                 }

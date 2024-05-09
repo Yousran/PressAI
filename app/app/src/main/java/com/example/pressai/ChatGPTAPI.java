@@ -7,8 +7,8 @@ import java.net.URL;
 public class ChatGPTAPI {
     public static String chatGPT(String jawaban, String pertanyaan) throws IOException {
         String url = "https://api.openai.com/v1/chat/completions";
-        String apiKey = "sk-proj-ZhRjfjbRWGxpBzfVEXs3T3BlbkFJepKrlmwySw5PqYQPvo8N"; // API key goes here
-        String model = "gpt-3.5-turbo"; // current model of chatgpt api
+        String apiKey = "sk-proj-5kisOc6LXQDd74iWw0upT3BlbkFJ2jaOnDUzSvK3Ks4YQhb6"; // API key goes here
+        String model = "gpt-3.5-turbo-0125"; // current model of chatgpt api
 
         try {
             URL obj = new URL(url);
@@ -17,10 +17,10 @@ public class ChatGPTAPI {
             con.setRequestProperty("Authorization", "Bearer " + apiKey);
             con.setRequestProperty("Content-Type", "application/json");
 
-            String prompt = "berikan nilai dari 1 sampai 5 terhadap jawaban atas pertanyaan berikut ";
+            String prompt = "Berikan penilaian dari 1 sampai 5 berdasarkan kelengkapan jawaban atas pertanyaan berikut. Skala penilaian adalah sebagai berikut: 1 sangat tidak lengkap, 2 kurang lengkap, 3 cukup lengkap, 4 lengkap, dan 5 sangat lengkap. Pertanyaan:";
 
+            String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}, {\"role\": \"user\", \"content\": \"" +"["+ pertanyaan +"]"+ " Dengan Jawaban: " + jawaban +" berikan penilaian hanya berupa angka 1 sampai 5 tanpa adanya komentar tambahan"+"\"}]}";
 
-            String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}, {\"role\": \"user\", \"content\": \"" + pertanyaan + " Dengan Jawaban " + jawaban +"\"}]}";
             con.setDoOutput(true);
             OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
             writer.write(body);
