@@ -35,8 +35,6 @@ public class Soal extends AppCompatActivity {
     private class ChatGPTTask extends AsyncTask<String, Void, String> {
         private DataJawaban currentJawaban;
 
-
-        // Constructor to pass current DataJawaban
         public ChatGPTTask(DataJawaban jawaban) {
             this.currentJawaban = jawaban;
         }
@@ -45,8 +43,9 @@ public class Soal extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String jawaban = params[0];
             String soal = params[1];
+            String kunci_jawaban = params[2];
             try {
-                return ChatGPTAPI.chatGPT(jawaban, soal);
+                return ChatGPTAPI.chatGPT(jawaban, soal, kunci_jawaban);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -57,7 +56,6 @@ public class Soal extends AppCompatActivity {
         protected void onPostExecute(String result) {
             if (result != null && !result.isEmpty()) {
                 try {
-                    // Assume result is a string representing a numeric score
                     int score = Integer.parseInt(result);
                     currentJawaban.skor = score;
                 } catch (NumberFormatException e) {
@@ -66,10 +64,8 @@ public class Soal extends AppCompatActivity {
             }
             Toast.makeText(Soal.this, "Score for : " + currentJawaban.getSkor(), Toast.LENGTH_LONG).show();
 
-            // Update evaluated answers count and check if all are done
             evaluatedAnswers++;
             if (evaluatedAnswers == dataJawabans.size()) {
-                // All answers evaluated, perhaps move to a new activity or update UI
                 Toast.makeText(Soal.this, "All answers evaluated", Toast.LENGTH_SHORT).show();
                 updateFirebaseWithResults();
 
@@ -81,7 +77,7 @@ public class Soal extends AppCompatActivity {
     private ArrayList<DataJawaban> dataJawabans;
     private TextView soal_test;
     private EditText editText_jawaban;
-    private int evaluatedAnswers = 0; // to keep track of evaluated answers
+    private int evaluatedAnswers = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +89,6 @@ public class Soal extends AppCompatActivity {
         editText_jawaban = textInputLayout.getEditText();
         soal_test = findViewById(R.id.soal_test);
 
-        // Initialize dataJawabans from Intent
         dataJawabans = (ArrayList<DataJawaban>) getIntent().getSerializableExtra("dataJawabans");
         displaySoal();
 
@@ -131,12 +126,11 @@ public class Soal extends AppCompatActivity {
     private void saveJawaban() {
         String jawaban = editText_jawaban.getText().toString();
         dataJawabans.get(currentIndex).setJawaban(jawaban);
-        // You might want to update the database here
     }
 
     private void evaluateAllAnswers() {
         for (DataJawaban jawaban : dataJawabans) {
-            new ChatGPTTask(jawaban).execute(jawaban.getJawaban(), jawaban.getPertanyaan());
+            new ChatGPTTask(jawaban).execute(jawaban.getJawaban(), jawaban.getPertanyaan(), jawaban.getKunci_jawaban());
         }
     }
     private void updateFirebaseWithResults() {

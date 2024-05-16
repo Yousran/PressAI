@@ -91,6 +91,7 @@ public class TestLobbyFragment extends Fragment {
                         for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                             DataJawaban dataJawaban = new DataJawaban();
                             dataJawaban.pertanyaan = childSnapshot.child("pertanyaan").getValue(String.class);
+                            dataJawaban.kunci_jawaban = childSnapshot.child("kunci_jawaban").getValue(String.class);
                             dataJawaban.soal_code = childSnapshot.child("soal_code").getValue(String.class);
                             dataJawaban.test_code = childSnapshot.child("test_code").getValue(String.class);
                             dataJawaban.username = username;

@@ -1,14 +1,16 @@
 package com.example.pressai;
 
+import android.util.Log;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ChatGPTAPI {
-    public static String chatGPT(String jawaban, String pertanyaan) throws IOException {
+    public static String chatGPT(String jawaban, String pertanyaan, String kunci_jawaban) throws IOException {
         String url = "https://api.openai.com/v1/chat/completions";
-        String apiKey = "sk-proj-5kisOc6LXQDd74iWw0upT3BlbkFJ2jaOnDUzSvK3Ks4YQhb6"; // API key goes here
-        String model = "gpt-3.5-turbo-0125"; // current model of chatgpt api
+        String apiKey = "sk-proj-LwggG20V6q8JXsE1dwYdT3BlbkFJenNcaNgQjnwq75kJOU5H";
+        String model = "gpt-3.5-turbo-0125";
 
         try {
             URL obj = new URL(url);
@@ -17,9 +19,10 @@ public class ChatGPTAPI {
             con.setRequestProperty("Authorization", "Bearer " + apiKey);
             con.setRequestProperty("Content-Type", "application/json");
 
-            String prompt = "Berikan penilaian dari 1 sampai 5 berdasarkan kelengkapan jawaban atas pertanyaan berikut. Skala penilaian adalah sebagai berikut: 1 sangat tidak lengkap, 2 kurang lengkap, 3 cukup lengkap, 4 lengkap, dan 5 sangat lengkap. Pertanyaan:";
+            String prompt = "Berikan penilaian dari 1 sampai 5 berdasarkan relevansi jawaban dengan kunci jawaban. Skala penilaian adalah sebagai berikut: 1 jawaban tidak ada atau tidak tahu, 2 sangat tidak relevan, 3 kurang relevan, 4 cukup relevan, dan 5 relevan.";
 
-            String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt + "\"}, {\"role\": \"user\", \"content\": \"" +"["+ pertanyaan +"]"+ " Dengan Jawaban: " + jawaban +" berikan penilaian hanya berupa angka 1 sampai 5 tanpa adanya komentar tambahan"+"\"}]}";
+            String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt +" Pertanyaan: " + "["+ pertanyaan + "]"+ " dan kunci jawaban : ["+ kunci_jawaban + "]"+ "\"}, {\"role\": \"user\", \"content\": \"" + " Dengan Jawaban: ["+ prepareAnswerForAPI(jawaban) + "]"+" berikan penilaian hanya berupa angka 1 sampai 5 tanpa adanya komentar tambahan"+"\"}]}";
+            Log.d("Isi Json", "Isi Body: " + body);
 
             con.setDoOutput(true);
             OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
@@ -41,6 +44,12 @@ public class ChatGPTAPI {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    private static String prepareAnswerForAPI(String jawaban) {
+        if (jawaban.trim().isEmpty()) {
+            return "tidak tahu";
+        }
+        return jawaban;
     }
 
     public static String extractContentFromResponse(String response) {

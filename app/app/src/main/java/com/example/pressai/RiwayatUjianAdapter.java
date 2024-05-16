@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class RiwayatUjianAdapter extends RecyclerView.Adapter<RiwayatUjianAdapter.RiwayatViewHolder> {
 
@@ -44,7 +45,7 @@ public class RiwayatUjianAdapter extends RecyclerView.Adapter<RiwayatUjianAdapte
         DataUjian data = dataUjian.get(position);
         holder.nama_matakuliah.setText(data.getMata_kuliah_name());
         holder.tanggal_sesi.setText(data.getTanggal_test());
-        holder.test_score.setText(String.valueOf(data.getTest_score()));
+        holder.test_score.setText(String.format(Locale.getDefault(), "%.0f", data.getTest_score()));
     }
 
     @Override
