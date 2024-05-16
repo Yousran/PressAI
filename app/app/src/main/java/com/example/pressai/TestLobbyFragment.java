@@ -3,6 +3,7 @@ package com.example.pressai;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,7 +61,6 @@ public class TestLobbyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         TextView nama_matakuliah = view.findViewById(R.id.nama_matakuliah);
         TextView nama_test = view.findViewById(R.id.nama_test);
         TextView tanggal_test = view.findViewById(R.id.tanggal_test);
@@ -68,6 +68,9 @@ public class TestLobbyFragment extends Fragment {
         TextView durasi_test = view.findViewById(R.id.durasi_test);
         Button mulai_btn = view.findViewById(R.id.mulai_btn);
         SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        MediaPlayer mediaPlayer;
+        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.success);
+        mediaPlayer.start();
 
         String username = sharedPref.getString("username", "Mahasiswa");
 

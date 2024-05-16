@@ -3,6 +3,7 @@ package com.example.pressai;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,9 @@ public class ViewScoreActivity extends AppCompatActivity {
         // Retrieve the average score from intent
         double averageScore = getIntent().getDoubleExtra("average_score", 0); // Default to 0 if not found
         scoreTextView.setText(String.format(Locale.getDefault(), "%.0f", averageScore));
+        MediaPlayer mediaPlayer;
+        mediaPlayer = MediaPlayer.create(this, R.raw.success);
+        mediaPlayer.start();
 
         kembali_btn.setOnClickListener(new View.OnClickListener() {
             @Override
