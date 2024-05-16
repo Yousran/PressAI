@@ -33,6 +33,7 @@ import java.util.Map;
 public class Soal extends AppCompatActivity {
 
     double averageScore = 0;
+    private int exitCount = 0;
 
     private class ChatGPTTask extends AsyncTask<String, Void, String> {
         private DataJawaban currentJawaban;
@@ -106,8 +107,10 @@ public class Soal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (currentIndex > 0) {
+                    saveJawaban();
                     currentIndex--;
                     displaySoal();
+                    btn_selanjutnya.setText("Selanjutnya");
                 }
             }
         });
@@ -119,8 +122,10 @@ public class Soal extends AppCompatActivity {
                 if (currentIndex < dataJawabans.size() - 1) {
                     currentIndex++;
                     displaySoal();
+                    if (currentIndex == dataJawabans.size() - 1){
+                        btn_selanjutnya.setText("Selesai");
+                    }
                 } else {
-
                     evaluateAllAnswers();
                 }
             }
@@ -208,6 +213,7 @@ public class Soal extends AppCompatActivity {
                     updates.put(testUserPath + "/tanggal_test", tanggal_test);
                     updates.put(testUserPath + "/created_at", cardinaldat);
                     String testAnswerpath = testUserPath + "/jawaban/" + jawaban.getSoal_code();
+                    updates.put(testUserPath + "/keluar_aplikasi", exitCount);
                     updates.put(testAnswerpath, jawabanDetails);
                 }
 
@@ -232,9 +238,10 @@ public class Soal extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        exitCount++;
+        Log.d("SoalActivity", "Pengguna keluar dari aplikasi, total keluar: " + exitCount);
+    }
 }

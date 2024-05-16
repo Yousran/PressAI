@@ -9,7 +9,7 @@ import java.net.URL;
 public class ChatGPTAPI {
     public static String chatGPT(String jawaban, String pertanyaan, String kunci_jawaban) throws IOException {
         String url = "https://api.openai.com/v1/chat/completions";
-        String apiKey = "sk-proj-LwggG20V6q8JXsE1dwYdT3BlbkFJenNcaNgQjnwq75kJOU5H";
+        String apiKey = "sk-proj-Shh8cNU9REpWIpkia1TTT3BlbkFJFERgAR8aLl2pF6Np0bzN";
         String model = "gpt-3.5-turbo-0125";
 
         try {
@@ -19,7 +19,7 @@ public class ChatGPTAPI {
             con.setRequestProperty("Authorization", "Bearer " + apiKey);
             con.setRequestProperty("Content-Type", "application/json");
 
-            String prompt = "Berikan penilaian dari 1 sampai 5 berdasarkan relevansi jawaban dengan kunci jawaban. Skala penilaian adalah sebagai berikut: 1 jawaban tidak ada atau tidak tahu, 2 sangat tidak relevan, 3 kurang relevan, 4 cukup relevan, dan 5 relevan.";
+            String prompt = "Berikan penilaian dari 1 sampai 5 berdasarkan relevansi jawaban dengan kunci jawaban. Skala penilaian adalah sebagai berikut: 1 = jawaban tidak ada atau tidak tahu, 2 = sangat tidak relevan, 3 = kurang relevan, 4 = cukup relevan, dan 5 = relevan.";
 
             String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"system\", \"content\": \"" + prompt +" Pertanyaan: " + "["+ pertanyaan + "]"+ " dan kunci jawaban : ["+ kunci_jawaban + "]"+ "\"}, {\"role\": \"user\", \"content\": \"" + " Dengan Jawaban: ["+ prepareAnswerForAPI(jawaban) + "]"+" berikan penilaian hanya berupa angka 1 sampai 5 tanpa adanya komentar tambahan"+"\"}]}";
             Log.d("Isi Json", "Isi Body: " + body);
