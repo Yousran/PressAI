@@ -98,7 +98,7 @@ public class ScanTestFragment extends Fragment {
                                     String akhir_waktu = childSnapshot.child("akhir_waktu").getValue(String.class);
                                     String awal_waktu = childSnapshot.child("awal_waktu").getValue(String.class);
                                     String tanggal_test = childSnapshot.child("tanggal_test").getValue(String.class);
-                                    String durasi = childSnapshot.child("durasi").getValue(String.class);
+                                    String durasi_test = childSnapshot.child("durasi_test").getValue(String.class);
 
                                     Bundle bundle = new Bundle();
                                     bundle.putString("mata_kuliah_name", mata_kuliah_name);
@@ -108,7 +108,7 @@ public class ScanTestFragment extends Fragment {
                                     bundle.putString("akhir_waktu", akhir_waktu);
                                     bundle.putString("awal_waktu", awal_waktu);
                                     bundle.putString("tanggal_test", tanggal_test);
-                                    bundle.putString("durasi", durasi);
+                                    bundle.putString("durasi_test", durasi_test);
 
                                     TestLobbyFragment testLobbyFragment = new TestLobbyFragment();
                                     testLobbyFragment.setArguments(bundle);

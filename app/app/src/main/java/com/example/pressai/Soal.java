@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import java.util.Map;
 public class Soal extends AppCompatActivity {
 
     double averageScore = 0;
+
     private class ChatGPTTask extends AsyncTask<String, Void, String> {
         private DataJawaban currentJawaban;
 
@@ -78,6 +80,9 @@ public class Soal extends AppCompatActivity {
     private TextView soal_test;
     private EditText editText_jawaban;
     private int evaluatedAnswers = 0;
+    private CountDownTimer countDownTimer;
+    private TextView countdownMinute;
+    private TextView countdownSecond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +93,11 @@ public class Soal extends AppCompatActivity {
         TextInputLayout textInputLayout = findViewById(R.id.jawaban);
         editText_jawaban = textInputLayout.getEditText();
         soal_test = findViewById(R.id.soal_test);
+        countdownMinute = findViewById(R.id.countdown_minute);
+        countdownSecond = findViewById(R.id.countdown_second);
+
+        long duration = getIntent().getLongExtra("duration", 0); // Menerima durasi
+        startTimer(duration); // Memulai timer
 
         dataJawabans = (ArrayList<DataJawaban>) getIntent().getSerializableExtra("dataJawabans");
         displaySoal();
@@ -110,11 +120,29 @@ public class Soal extends AppCompatActivity {
                     currentIndex++;
                     displaySoal();
                 } else {
-                    // Start evaluating answers when the last question is reached and saved
+
                     evaluateAllAnswers();
                 }
             }
         });
+    }
+    private void startTimer(long durationMinutes) {
+        long durationMillis = durationMinutes * 60 * 1000;
+
+        countDownTimer = new CountDownTimer(durationMillis, 1000) {
+            public void onTick(long millisUntilFinished) {
+                long minutesLeft = millisUntilFinished / 1000 / 60;
+                long secondsLeft = (millisUntilFinished / 1000) % 60;
+                countdownMinute.setText(String.format(Locale.getDefault(), "%02d", minutesLeft));
+                countdownSecond.setText(String.format(Locale.getDefault(), "%02d", secondsLeft));
+            }
+
+            public void onFinish() {
+                countdownMinute.setText("00");
+                countdownSecond.setText("00");
+                evaluateAllAnswers();
+            }
+        }.start();
     }
 
     private void displaySoal() {

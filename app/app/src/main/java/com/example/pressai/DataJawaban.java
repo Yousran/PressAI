@@ -10,6 +10,7 @@ public class DataJawaban implements Parcelable {
     public String kunci_jawaban;
     public String soal_code;
     public String test_code;
+    public double durasi_test;
     public int skor = 0;
 
     public DataJawaban() {
@@ -38,6 +39,13 @@ public class DataJawaban implements Parcelable {
 
     public void setKunci_jawaban(String kunci_jawaban) {
         this.kunci_jawaban = kunci_jawaban;
+    }
+    public double getDurasi_test() {
+        return durasi_test;
+    }
+
+    public void setDurasi_test(double durasi_test) {
+        this.durasi_test = durasi_test;
     }
 
     public String getSoal_code() {

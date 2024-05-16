@@ -75,9 +75,9 @@ public class TestLobbyFragment extends Fragment {
         if (arguments != null) {
             nama_matakuliah.setText(arguments.getString("mata_kuliah_name"));
             nama_test.setText(arguments.getString("test_name"));
-            tanggal_test.setText(arguments.getString("tanggal_test"));
-            waktu_test.setText(arguments.getString("awal_waktu") + " - " + arguments.getString("akhir_waktu"));
-            durasi_test.setText(arguments.getString("durasi"));
+            tanggal_test.setText("Tanggal : "+arguments.getString("tanggal_test"));
+            waktu_test.setText("Terbuka : "+arguments.getString("awal_waktu") + " - " + arguments.getString("akhir_waktu"));
+            durasi_test.setText("Durasi : "+arguments.getString("durasi_test") + " Menit");
         }
 
         mulai_btn.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +88,7 @@ public class TestLobbyFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         ArrayList<DataJawaban> dataJawabanList = new ArrayList<>();
+                        long duration = 0;
                         for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                             DataJawaban dataJawaban = new DataJawaban();
                             dataJawaban.pertanyaan = childSnapshot.child("pertanyaan").getValue(String.class);
@@ -98,7 +99,9 @@ public class TestLobbyFragment extends Fragment {
                             dataJawabanList.add(dataJawaban);
                         }
                         Intent layout_soal = new Intent(getContext(), Soal.class);
+                        duration = Long.parseLong(arguments.getString("durasi_test"));
                         layout_soal.putParcelableArrayListExtra("dataJawabans", dataJawabanList);
+                        layout_soal.putExtra("duration", duration);
                         startActivity(layout_soal);
                     }
 
